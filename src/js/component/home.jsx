@@ -1,15 +1,31 @@
-import React, {useState} from "react";
-
-//include images into your bundle
+import React, { useState, useEffect } from 'react';
 import rigoImage from "../../img/rigo-baby.jpg";
 
-//create your first component
+export default function Home() {
+  const [selectedColor, setSelectedColor] = useState("red");
 
-  export default function Home() {
-    const [selectedColor, setSelectedColor] = useState("red");
-  
-    return (
-	<div className="container">
+  useEffect(() => {
+    const interval = setInterval(() => {
+      switch (selectedColor) {
+        case 'red':
+          setSelectedColor('green');
+          break;
+        case 'yellow':
+          setSelectedColor('red');
+          break;
+        case 'green':
+          setSelectedColor('yellow');
+          break;
+        default:
+          setSelectedColor('red');
+      }
+    }, 2000); // Change the interval duration (in milliseconds) to adjust the timing
+
+    return () => clearInterval(interval);
+  }, [selectedColor]);
+
+  return (
+    <div className="container">
       <div className="traffic-light">
         <div
           onClick={() => setSelectedColor("red")}
@@ -24,7 +40,7 @@ import rigoImage from "../../img/rigo-baby.jpg";
           className={"light green" + (selectedColor === "green" ? " glow" : "")}
         ></div>
       </div>
-	</div>
-	
-    );
-  }
+    </div>
+  );
+}
+
